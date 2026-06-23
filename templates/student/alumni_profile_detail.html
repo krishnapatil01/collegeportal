@@ -1,0 +1,636 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ alumni.full_name }} - Alumni Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --white: #ffffff;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0, 43, 92, 0.15);
+            --shadow-hover: 0 26px 65px rgba(0, 43, 92, 0.28);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .navbar-brand img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+        }
+
+        .brand-title { font-size: 18px; display: block; }
+        .brand-subtitle { font-size: 12px; color: var(--blue); letter-spacing: 1px; display: block; }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 13px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+            transform: translateY(-2px);
+        }
+
+        .page-hero {
+            width: 100%;
+            padding: 72px 20px;
+            background:
+                linear-gradient(rgba(0, 43, 92, 0.88), rgba(0, 76, 153, 0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            background: rgba(245, 164, 0, 0.20);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+            animation: floatingShape 7s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245, 164, 0, 0.18);
+            border: 1px solid rgba(245, 164, 0, 0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 58px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 780px;
+            margin: auto;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .page-wrapper {
+            width: 100%;
+            padding: 45px 5%;
+        }
+
+        .profile-header-card {
+            max-width: 1280px;
+            margin: 0 auto 40px;
+            background:
+                radial-gradient(circle at 88% 78%, rgba(245,164,0,0.18), transparent 22%),
+                rgba(255,255,255,0.97);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            padding: 34px;
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 30px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.85s ease both;
+            transition: 0.35s ease;
+        }
+
+        .profile-header-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .profile-header-card::before {
+            content: "";
+            position: absolute;
+            height: 6px;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background: linear-gradient(90deg, var(--gold), var(--blue), var(--navy));
+        }
+
+        .profile-img-wrap {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            padding: 7px;
+            background: linear-gradient(135deg, var(--gold), var(--blue));
+            box-shadow: 0 18px 35px rgba(0,43,92,0.18);
+            animation: iconFloat 3.2s ease-in-out infinite;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ffffff;
+            border: 5px solid #ffffff;
+        }
+
+        .profile-details h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 14px 0 18px;
+        }
+
+        .profile-badge {
+            background: var(--gold-light);
+            border: 1px solid rgba(245,164,0,0.35);
+            color: #9a6500;
+            padding: 7px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .profile-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .info-card {
+            background: #f8fbff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 15px;
+            transition: 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(245,164,0,0.55);
+            box-shadow: 0 12px 26px rgba(0,43,92,0.10);
+        }
+
+        .info-card small {
+            display: block;
+            color: var(--muted);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .info-card span {
+            color: var(--text-dark);
+            font-weight: 900;
+        }
+
+        .bio-box {
+            margin-top: 16px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-weight: 650;
+        }
+
+        .btn-linkedin {
+            display: inline-block;
+            margin-top: 18px;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 11px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 900;
+            box-shadow: 0 12px 24px rgba(0,43,92,0.22);
+            transition: 0.3s ease;
+        }
+
+        .btn-linkedin:hover {
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 18px 32px rgba(0,43,92,0.32);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title span {
+            display: inline-block;
+            background: var(--gold-light);
+            border: 1px solid rgba(245,164,0,0.35);
+            color: #9a6500;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 950;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .posts-grid {
+            max-width: 1280px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 26px;
+        }
+
+        .post-card {
+            background: rgba(255,255,255,0.97);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: 0.4s ease;
+            animation: cardZoomIn 0.75s ease both, zoomPulse 4.5s ease-in-out infinite;
+        }
+
+        .post-card:hover {
+            transform: translateY(-14px) scale(1.035) !important;
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(245,164,0,0.55);
+            animation-play-state: paused;
+        }
+
+        .post-card-header {
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: #ffffff;
+            padding: 20px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card-header::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            right: -60px;
+            top: -60px;
+            background: rgba(245,164,0,0.22);
+        }
+
+        .post-card-header h5 {
+            position: relative;
+            z-index: 2;
+            font-size: 22px;
+            font-weight: 950;
+            margin: 0;
+        }
+
+        .post-card-body {
+            padding: 24px;
+        }
+
+        .post-card-body p,
+        .post-card-body pre {
+            color: var(--muted);
+            font-weight: 650;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .post-card-body strong {
+            color: var(--text-dark);
+        }
+
+        .post-card-body i {
+            color: var(--blue);
+            margin-right: 6px;
+        }
+
+        pre {
+            background: #f8fbff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 13px 15px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .btn-view-post {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 12px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 900;
+            box-shadow: 0 12px 24px rgba(0,43,92,0.22);
+            transition: 0.3s ease;
+            margin-top: 18px;
+        }
+
+        .btn-view-post:hover {
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 18px 32px rgba(0,43,92,0.32);
+        }
+
+        .empty-box {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.97);
+            border: 1px dashed #b9c9dc;
+            border-radius: 28px;
+            padding: 48px 28px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            color: var(--muted);
+            font-weight: 800;
+            animation: fadeUp 0.9s ease both;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 18px;
+            border-radius: 26px;
+            display: grid;
+            place-items: center;
+            background: var(--gold-light);
+            color: var(--navy);
+            font-size: 38px;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+
+        .footer p { margin: 0; color: rgba(255,255,255,0.90); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatingShape { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(18px); } }
+        @keyframes cardZoomIn { from { opacity: 0; transform: scale(0.88) translateY(35px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes zoomPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.012); } }
+        @keyframes iconFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+        .reveal-card { opacity: 0; transform: translateY(35px) scale(0.96); transition: 0.75s ease; }
+        .reveal-card.show { opacity: 1; transform: translateY(0) scale(1); }
+
+        @media (max-width: 1100px) {
+            .profile-info-grid { grid-template-columns: 1fr; }
+            .posts-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container-fluid { padding-left: 18px !important; padding-right: 18px !important; }
+            .page-hero { padding: 52px 16px; }
+            .page-hero p { font-size: 16px; }
+            .page-wrapper { padding: 32px 14px; }
+            .profile-header-card { grid-template-columns: 1fr; text-align: center; padding: 26px 20px; border-radius: 24px; }
+            .profile-img-wrap { margin: auto; width: 165px; height: 165px; }
+            .profile-badges { justify-content: center; }
+            .post-card-body { padding: 20px; }
+            .navbar-brand img { width: 44px; height: 44px; }
+            .brand-title { font-size: 16px; }
+            .footer { text-align: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand" href="{% url 'student_dashboard' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">ALUMNI PROFILE</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/create_student_profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/search_alumni">Search Alumni</a></li>
+                <li class="nav-item"><a class="nav-link" href="/student_job_port">Job Board</a></li>
+                <li class="nav-item"><a class="nav-link" href="/view_resources">Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="hero-content">
+        <span class="hero-chip">👤 Alumni Profile</span>
+        <h1>{{ alumni.full_name }}</h1>
+        <p>View alumni professional details, profile information, and shared career opportunities.</p>
+    </div>
+</section>
+
+<section class="page-wrapper">
+
+    <div class="profile-header-card reveal-card">
+        <div class="profile-img-wrap">
+            {% if alumni.profile_picture %}
+                <img src="{{ alumni.profile_picture.url }}" alt="{{ alumni.full_name }}'s Profile Picture" class="profile-img">
+            {% else %}
+                <img src="https://via.placeholder.com/300x300?text=Alumni" alt="Default Profile Picture" class="profile-img">
+            {% endif %}
+        </div>
+
+        <div class="profile-details">
+            <h2>{{ alumni.full_name }}</h2>
+
+            <div class="profile-badges">
+                <span class="profile-badge">Alumni Member</span>
+                <span class="profile-badge">Career Network</span>
+            </div>
+
+            <div class="profile-info-grid">
+                <div class="info-card">
+                    <small>Company</small>
+                    <span>{{ alumni.company_name }}</span>
+                </div>
+                <div class="info-card">
+                    <small>Location</small>
+                    <span>{{ alumni.location }}</span>
+                </div>
+                <div class="info-card">
+                    <small>Position</small>
+                    <span>{{ alumni.position }}</span>
+                </div>
+            </div>
+
+            <div class="bio-box">
+                <strong>Bio:</strong> {{ alumni.bio }}
+            </div>
+
+            <a href="{{ alumni.linkedin }}" target="_blank" class="btn-linkedin">View LinkedIn</a>
+        </div>
+    </div>
+
+    <div class="section-title reveal-card">
+        <span>Career Posts</span>
+        <h2>Posts by {{ alumni.full_name }}</h2>
+    </div>
+
+    {% if posts %}
+    <div class="posts-grid">
+        {% for post in posts %}
+            <div class="post-card reveal-card">
+                <div class="post-card-header">
+                    <h5>{{ post.title }}</h5>
+                </div>
+
+                <div class="post-card-body">
+                    <p><i class="fas fa-building"></i> <strong>Company:</strong> {{ post.company_name }}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ post.location }}</p>
+                    <p><i class="fas fa-graduation-cap"></i> <strong>Qualification:</strong> {{ post.qualification }}</p>
+                    <pre><i class="fas fa-user-tie"></i> <strong>Role:</strong> {{ post.role_responsibility }}</pre>
+                    <p><i class="fas fa-tools"></i> <strong>Skills:</strong> {{ post.skills }}</p>
+                    <pre><i class="fas fa-align-left"></i> <strong>Description:</strong> {{ post.description }}</pre>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Closing Date:</strong> {{ post.closing_date|date:"F j, Y" }}</p>
+                    <p><small class="text-muted">Posted By: {{ post.user.username }} on {{ post.post_date|date:"F j, Y" }}</small></p>
+
+                    <a href="{% url 'view_post' post.id %}" class="btn-view-post">View & Comment</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="empty-box reveal-card">
+            <div class="empty-icon">📭</div>
+            <h4>No posts found</h4>
+            <p>No career posts have been shared by this alumni yet.</p>
+        </div>
+    {% endif %}
+
+</section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".reveal-card");
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.12 });
+
+        cards.forEach(function (card, index) {
+            card.style.transitionDelay = (index * 0.07) + "s";
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

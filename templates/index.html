@@ -1,0 +1,619 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity Alumni Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --tae-navy:#062b63;
+            --tae-blue:#0b4ea2;
+            --tae-light-blue:#eaf3ff;
+            --tae-gold:#f7b500;
+            --tae-orange:#f58634;
+            --tae-red:#c62828;
+            --tae-dark:#071b33;
+            --tae-text:#263238;
+            --tae-muted:#6b7280;
+            --tae-white:#ffffff;
+            --tae-shadow:0 18px 45px rgba(6,43,99,.16);
+            --tae-radius:22px;
+        }
+
+        *{box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            margin:0;
+            min-height:100vh;
+            font-family:'Poppins','Segoe UI',sans-serif;
+            color:var(--tae-text);
+            background:
+                radial-gradient(circle at 10% 8%, rgba(247,181,0,.18), transparent 26%),
+                radial-gradient(circle at 90% 4%, rgba(11,78,162,.16), transparent 30%),
+                linear-gradient(180deg,#ffffff 0%,#f3f8ff 48%,#fff8e5 100%);
+            overflow-x:hidden;
+        }
+
+        a{text-decoration:none;}
+
+        .top-strip{
+            background:linear-gradient(90deg,var(--tae-navy),var(--tae-blue));
+            color:#fff;
+            font-size:.9rem;
+            padding:8px 0;
+        }
+        .top-strip a{color:#fff;font-weight:600;}
+        .top-strip .info-item{
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            margin-right:18px;
+            white-space:nowrap;
+        }
+
+        .main-navbar{
+            background:rgba(255,255,255,.96);
+            backdrop-filter:blur(16px);
+            box-shadow:0 10px 30px rgba(6,43,99,.12);
+            border-bottom:4px solid var(--tae-gold);
+        }
+        .navbar-brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            color:var(--tae-navy)!important;
+            font-weight:800;
+            letter-spacing:-.03em;
+        }
+        .college-logo{
+            width:62px;
+            height:62px;
+            object-fit:contain;
+            border-radius:14px;
+            background:#fff;
+            padding:5px;
+            box-shadow:0 8px 22px rgba(6,43,99,.16);
+        }
+        .brand-title{line-height:1.1;}
+        .brand-title span{
+            display:block;
+            font-size:.78rem;
+            color:var(--tae-red);
+            font-weight:700;
+            letter-spacing:.02em;
+        }
+        .nav-link{
+            color:var(--tae-navy)!important;
+            font-weight:700;
+            border-radius:999px;
+            padding:9px 14px!important;
+            transition:.25s ease;
+        }
+        .nav-link:hover{
+            color:#fff!important;
+            background:linear-gradient(135deg,var(--tae-blue),var(--tae-navy));
+            transform:translateY(-2px);
+        }
+        .nav-login{
+            background:var(--tae-gold)!important;
+            color:var(--tae-navy)!important;
+            box-shadow:0 10px 22px rgba(247,181,0,.26);
+        }
+        .nav-login:hover{
+            color:#fff!important;
+            background:var(--tae-orange)!important;
+        }
+
+        .hero-section{
+            position:relative;
+            min-height:650px;
+            display:flex;
+            align-items:center;
+            overflow:hidden;
+            background:
+                linear-gradient(105deg,rgba(6,43,99,.95) 0%,rgba(6,43,99,.86) 46%,rgba(11,78,162,.58) 100%),
+                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+        }
+        .hero-section::before{
+            content:"";
+            position:absolute;
+            inset:auto -80px -140px auto;
+            width:430px;
+            height:430px;
+            border-radius:50%;
+            background:rgba(247,181,0,.24);
+            filter:blur(1px);
+            animation:float 7s ease-in-out infinite;
+        }
+        .hero-section::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            background-image:linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px, transparent 1px);
+            background-size:48px 48px;
+            mask-image:linear-gradient(90deg,#000,transparent);
+        }
+        .hero-content{
+            position:relative;
+            z-index:2;
+            max-width:760px;
+            color:#fff;
+            animation:fadeUp .9s ease both;
+        }
+        .hero-chip{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            background:rgba(247,181,0,.18);
+            color:#fff;
+            border:1px solid rgba(247,181,0,.5);
+            border-radius:999px;
+            padding:9px 16px;
+            font-weight:700;
+            margin-bottom:18px;
+        }
+        .hero-content h1{
+            font-size:clamp(2.2rem,5vw,4.7rem);
+            font-weight:800;
+            line-height:1.04;
+            letter-spacing:-.05em;
+            margin-bottom:18px;
+        }
+        .hero-content p{
+            color:rgba(255,255,255,.88);
+            font-size:clamp(1rem,2vw,1.22rem);
+            line-height:1.8;
+            margin-bottom:28px;
+        }
+        .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+        .btn-tae-primary,
+        .btn-tae-secondary,
+        .btn-tae-outline{
+            border-radius:999px;
+            padding:13px 24px;
+            font-weight:800;
+            transition:.25s ease;
+            display:inline-flex;
+            align-items:center;
+            gap:9px;
+        }
+        .btn-tae-primary{
+            background:linear-gradient(135deg,var(--tae-gold),var(--tae-orange));
+            color:var(--tae-navy);
+            box-shadow:0 16px 32px rgba(247,181,0,.32);
+        }
+        .btn-tae-secondary{
+            background:#fff;
+            color:var(--tae-navy);
+        }
+        .btn-tae-outline{
+            border:2px solid rgba(255,255,255,.7);
+            color:#fff;
+        }
+        .btn-tae-primary:hover,
+        .btn-tae-secondary:hover,
+        .btn-tae-outline:hover{
+            transform:translateY(-4px);
+            box-shadow:0 18px 36px rgba(0,0,0,.18);
+        }
+        .btn-tae-outline:hover{background:#fff;color:var(--tae-navy);}
+
+        .hero-card{
+            position:relative;
+            z-index:2;
+            background:rgba(255,255,255,.94);
+            border-radius:30px;
+            padding:28px;
+            box-shadow:0 22px 55px rgba(0,0,0,.25);
+            animation:fadeLeft .9s ease both;
+        }
+        .hero-card .mini-logo{
+            width:86px;
+            height:86px;
+            object-fit:contain;
+            border-radius:18px;
+            padding:8px;
+            background:#fff;
+            box-shadow:0 12px 26px rgba(6,43,99,.16);
+        }
+        .hero-card h3{font-weight:800;color:var(--tae-navy);margin:16px 0 8px;}
+        .hero-card p{color:var(--tae-muted);line-height:1.7;}
+        .quick-box{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:14px;
+            margin-top:18px;
+        }
+        .quick-item{
+            background:linear-gradient(135deg,#f8fbff,#fff8e5);
+            border:1px solid rgba(6,43,99,.12);
+            border-radius:18px;
+            padding:16px;
+            text-align:center;
+            transition:.25s ease;
+        }
+        .quick-item:hover{transform:translateY(-5px);border-color:var(--tae-gold);}
+        .quick-item i{font-size:1.45rem;color:var(--tae-orange);margin-bottom:8px;}
+        .quick-item span{display:block;font-weight:800;color:var(--tae-navy);font-size:.95rem;}
+
+        .section-pad{padding:70px 0;}
+        .section-title{text-align:center;margin-bottom:42px;}
+        .section-title .subtitle{
+            color:var(--tae-red);
+            font-weight:800;
+            text-transform:uppercase;
+            letter-spacing:.08em;
+            font-size:.85rem;
+        }
+        .section-title h2{
+            color:var(--tae-navy);
+            font-weight:800;
+            letter-spacing:-.04em;
+            font-size:clamp(1.8rem,3.5vw,3rem);
+        }
+        .section-title p{max-width:760px;margin:10px auto 0;color:var(--tae-muted);line-height:1.8;}
+
+        .stats-strip{
+            margin-top:-72px;
+            position:relative;
+            z-index:5;
+        }
+        .stat-card{
+            height:100%;
+            background:#fff;
+            border-radius:var(--tae-radius);
+            padding:24px;
+            box-shadow:var(--tae-shadow);
+            border-bottom:5px solid var(--tae-gold);
+            text-align:center;
+            transition:.28s ease;
+        }
+        .stat-card:hover{transform:translateY(-8px);}
+        .stat-card h3{font-size:2.35rem;font-weight:800;color:var(--tae-navy);margin:0;}
+        .stat-card p{margin:4px 0 0;color:var(--tae-muted);font-weight:600;}
+
+        .feature-card{
+            height:100%;
+            background:#fff;
+            border-radius:var(--tae-radius);
+            padding:30px;
+            box-shadow:0 14px 35px rgba(6,43,99,.10);
+            border:1px solid rgba(6,43,99,.10);
+            position:relative;
+            overflow:hidden;
+            transition:.28s ease;
+        }
+        .feature-card::before{
+            content:"";
+            position:absolute;
+            inset:0 0 auto 0;
+            height:5px;
+            background:linear-gradient(90deg,var(--tae-navy),var(--tae-gold),var(--tae-orange));
+        }
+        .feature-card:hover{
+            transform:translateY(-10px);
+            box-shadow:0 24px 55px rgba(6,43,99,.18);
+        }
+        .feature-icon{
+            width:64px;
+            height:64px;
+            border-radius:20px;
+            display:grid;
+            place-items:center;
+            color:#fff;
+            font-size:1.65rem;
+            background:linear-gradient(135deg,var(--tae-blue),var(--tae-navy));
+            box-shadow:0 14px 28px rgba(6,43,99,.24);
+            margin-bottom:18px;
+        }
+        .feature-card:nth-child(even) .feature-icon{background:linear-gradient(135deg,var(--tae-gold),var(--tae-orange));color:var(--tae-navy);}
+        .feature-card h4{color:var(--tae-navy);font-weight:800;margin-bottom:10px;}
+        .feature-card p{color:var(--tae-muted);line-height:1.8;margin:0;}
+
+        .about-section{
+            background:linear-gradient(135deg,var(--tae-navy),var(--tae-blue));
+            color:#fff;
+            position:relative;
+            overflow:hidden;
+        }
+        .about-section::after{
+            content:"";
+            position:absolute;
+            width:420px;height:420px;
+            border-radius:50%;
+            background:rgba(247,181,0,.18);
+            right:-160px;top:-130px;
+        }
+        .about-box{
+            position:relative;
+            z-index:2;
+            background:rgba(255,255,255,.10);
+            border:1px solid rgba(255,255,255,.16);
+            border-radius:28px;
+            padding:34px;
+            backdrop-filter:blur(14px);
+        }
+        .about-box h2{font-weight:800;letter-spacing:-.04em;}
+        .about-box p{color:rgba(255,255,255,.84);line-height:1.9;}
+        .about-list{list-style:none;padding:0;margin:0;}
+        .about-list li{
+            display:flex;gap:12px;align-items:flex-start;
+            margin:14px 0;
+            color:rgba(255,255,255,.9);
+        }
+        .about-list i{color:var(--tae-gold);margin-top:5px;}
+
+        .program-pill{
+            background:#fff;
+            border:1px solid rgba(6,43,99,.10);
+            border-radius:999px;
+            padding:12px 18px;
+            color:var(--tae-navy);
+            font-weight:800;
+            box-shadow:0 10px 24px rgba(6,43,99,.08);
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            margin:6px;
+            transition:.25s ease;
+        }
+        .program-pill:hover{background:var(--tae-navy);color:#fff;transform:translateY(-3px);}
+        .program-pill i{color:var(--tae-orange);}
+
+        .footer{
+            background:var(--tae-dark);
+            color:#fff;
+            padding:36px 0 18px;
+            border-top:5px solid var(--tae-gold);
+        }
+        .footer h5{font-weight:800;color:#fff;margin-bottom:14px;}
+        .footer p,.footer a{color:rgba(255,255,255,.78);}
+        .footer a:hover{color:var(--tae-gold);}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:22px;padding-top:16px;text-align:center;}
+
+        .reveal{opacity:0;transform:translateY(24px);transition:.75s ease;}
+        .reveal.show{opacity:1;transform:none;}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+        @keyframes fadeLeft{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
+
+        @media(max-width:991px){
+            .top-strip{text-align:center;}
+            .top-strip .info-item{margin:4px 8px;}
+            .hero-section{min-height:auto;padding:70px 0;}
+            .hero-card{margin-top:34px;}
+            .stats-strip{margin-top:30px;}
+            .navbar-collapse{padding:16px 0;}
+            .nav-link{margin:3px 0;}
+        }
+        @media(max-width:575px){
+            .college-logo{width:50px;height:50px;}
+            .brand-title strong{font-size:.95rem;}
+            .brand-title span{font-size:.68rem;}
+            .hero-actions a{width:100%;justify-content:center;}
+            .quick-box{grid-template-columns:1fr;}
+            .section-pad{padding:50px 0;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-strip">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <span class="info-item"><i class="fa-solid fa-phone"></i> 8446101199 / 8446091199</span>
+            <span class="info-item"><i class="fa-solid fa-location-dot"></i> Pune, Maharashtra</span>
+            <span class="info-item"><i class="fa-solid fa-building-columns"></i> DTE Code : EN6634</span>
+        </div>
+        <div>
+            <a href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Portal Login</a>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" class="college-logo" onerror="this.style.display='none';document.getElementById('logoTextFallback').style.display='grid';">
+            <span id="logoTextFallback" class="college-logo" style="display:none;place-items:center;font-weight:900;color:#062b63;">TAE</span>
+            <span class="brand-title">
+                <strong>Trinity Alumni Portal</strong>
+                <span>KJ's Education Institutes</span>
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link nav-login" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'admin_login' %}">Admin Login</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="hero-content">
+                    <div class="hero-chip"><i class="fa-solid fa-graduation-cap"></i> Trinity Academy Career & Alumni Network</div>
+                    <h1>Shaping Alumni Connections for Tomorrow.</h1>
+                    <p>Connect students and alumni, explore job opportunities, upload resumes, access notes, and get AI-powered education and career guidance in one professional portal.</p>
+                    <div class="hero-actions">
+                        <a href="{% url 'register' %}" class="btn-tae-primary"><i class="fa-solid fa-user-plus"></i> Create Account</a>
+                        <a href="{% url 'login' %}" class="btn-tae-secondary"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                        <a href="{% url 'admin_login' %}" class="btn-tae-outline"><i class="fa-solid fa-user-shield"></i> Admin Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="hero-card">
+                    <img src="{% static 'images/trinity_logo.png' %}" alt="College Logo" class="mini-logo" onerror="this.style.display='none';">
+                    <h3>Trinity Academy of Engineering, Pune</h3>
+                    <p>A modern alumni portal inspired by Trinity Academy’s academic excellence, placement support, innovation culture, and student-first career ecosystem.</p>
+                    <div class="quick-box">
+                        <div class="quick-item"><i class="fa-solid fa-users"></i><span>Alumni Search</span></div>
+                        <div class="quick-item"><i class="fa-solid fa-briefcase"></i><span>Job Board</span></div>
+                        <div class="quick-item"><i class="fa-solid fa-file-lines"></i><span>Resume Analyzer</span></div>
+                        <div class="quick-item"><i class="fa-solid fa-robot"></i><span>AI Chatbot</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-strip">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-6"><div class="stat-card reveal"><h3>100%</h3><p>Placement Assistance</p></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card reveal"><h3>32 LPA</h3><p>Highest Package</p></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card reveal"><h3>150+</h3><p>Recruiters</p></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card reveal"><h3>AI</h3><p>Career Support</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section-pad">
+    <div class="container">
+        <div class="section-title reveal">
+            <div class="subtitle">Portal Features</div>
+            <h2>Everything Students Need for Career Growth</h2>
+            <p>Designed for students, alumni, and administrators with a clean responsive interface matching the Trinity Academy professional theme.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                    <h4>Alumni Connect</h4>
+                    <p>Search alumni by company, location, profile details, and career background.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <h4>Jobs & Internships</h4>
+                    <p>View job posts and internship opportunities shared through the portal.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+                    <h4>Resume Analyzer</h4>
+                    <p>Upload resume, extract skills, analyze education, and get job recommendations.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+                    <h4>AI Chatbot</h4>
+                    <p>Ask about education, jobs, internships, login help, profile, and portal navigation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-section section-pad">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <div class="about-box reveal">
+                    <h2>Inspired by Trinity Academy’s Professional Theme</h2>
+                    <p>This homepage uses a similar premium academic style with navy blue, royal blue, gold, orange highlights, structured content, and professional cards.</p>
+                    <ul class="about-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Responsive design for mobile, tablet, and desktop</li>
+                        <li><i class="fa-solid fa-circle-check"></i> College logo support using Django static file</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Smooth animations and attractive hover effects</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Existing Django URLs and login flow kept same</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-box reveal">
+                    <h2>Academic Ecosystem</h2>
+                    <p>Students can connect learning with careers through alumni mentorship, notes/resources, resume analysis, job recommendations, and chatbot-based education guidance.</p>
+                    <div class="mt-3">
+                        <span class="program-pill"><i class="fa-solid fa-laptop-code"></i> Computer Engineering</span>
+                        <span class="program-pill"><i class="fa-solid fa-microchip"></i> Information Technology</span>
+                        <span class="program-pill"><i class="fa-solid fa-robot"></i> AI / ML</span>
+                        <span class="program-pill"><i class="fa-solid fa-database"></i> MCA</span>
+                        <span class="program-pill"><i class="fa-solid fa-industry"></i> Mechanical</span>
+                        <span class="program-pill"><i class="fa-solid fa-building"></i> Civil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-pad">
+    <div class="container">
+        <div class="section-title reveal">
+            <div class="subtitle">Start Now</div>
+            <h2>Join the Trinity Alumni Portal</h2>
+            <p>Create your profile, connect with alumni, explore opportunities, and build your future-ready career path.</p>
+            <div class="hero-actions justify-content-center mt-4">
+                <a href="{% url 'register' %}" class="btn-tae-primary"><i class="fa-solid fa-user-plus"></i> Register Now</a>
+                <a href="{% url 'login' %}" class="btn-tae-secondary"><i class="fa-solid fa-right-to-bracket"></i> Login Portal</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <h5>Trinity Alumni Portal</h5>
+                <p>Student and alumni career network for education guidance, resume analysis, job recommendations, notes, and alumni connections.</p>
+            </div>
+            <div class="col-lg-3">
+                <h5>Quick Links</h5>
+                <p><a href="{% url 'index' %}">Home</a></p>
+                <p><a href="{% url 'about' %}">About Us</a></p>
+                <p><a href="{% url 'login' %}">Login</a></p>
+            </div>
+            <div class="col-lg-4">
+                <h5>Contact</h5>
+                <p><i class="fa-solid fa-location-dot me-2"></i> Sr.No. 25 & 27, Kondhwa-Saswad Road, Bopdev Ghat, Pune 411048</p>
+                <p><i class="fa-solid fa-phone me-2"></i> 8446101199 / 8446091199</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="mb-0">&copy; 2026 Trinity Alumni Portal. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const items = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(entry.isIntersecting){
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {threshold:0.15});
+
+        items.forEach(function(item){ observer.observe(item); });
+    });
+</script>
+</body>
+</html>

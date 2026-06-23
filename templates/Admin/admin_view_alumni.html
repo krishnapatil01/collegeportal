@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Alumni Profiles - Trinity Admin</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"><style>
+:root{--navy:#002b5c;--blue:#004c99;--gold:#f5a400;--gold-light:#fff3d1;--text-dark:#061b3a;--muted:#607089;--white:#fff;--border:#d9e2ef;--shadow:0 18px 45px rgba(0,43,92,.15);--shadow-hover:0 24px 60px rgba(0,43,92,.25);--danger:#dc2626;--success:#16a34a;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text-dark);background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.88)),linear-gradient(90deg,rgba(0,43,92,.06) 1px,transparent 1px),linear-gradient(rgba(0,43,92,.06) 1px,transparent 1px);background-size:auto,40px 40px,40px 40px;overflow-x:hidden}.main-navbar{background:rgba(255,255,255,.97);box-shadow:0 8px 25px rgba(0,43,92,.10);padding:13px 0;position:sticky;top:0;z-index:999}.navbar-brand{display:flex;align-items:center;gap:12px;font-weight:900;color:var(--navy)!important;line-height:1.1;text-decoration:none}.navbar-brand img{width:54px;height:54px;object-fit:contain}.brand-title{font-size:18px;display:block}.brand-subtitle{font-size:12px;color:var(--blue);letter-spacing:1px;display:block}.navbar-nav .nav-link{color:var(--text-dark)!important;font-weight:800;padding:10px 15px!important;border-radius:28px;transition:.3s ease}.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active{background:var(--gold-light);color:var(--blue)!important}.page-hero{width:100%;padding:70px 20px;background:linear-gradient(rgba(0,43,92,.88),rgba(0,76,153,.84)),url("{% static 'images/log.jpg' %}") center/cover no-repeat;color:#fff;text-align:center;position:relative;overflow:hidden}.page-hero:before{content:"";position:absolute;width:260px;height:260px;background:rgba(245,164,0,.18);border-radius:50%;top:-80px;right:-70px;animation:floatingShape 6s ease-in-out infinite}.page-hero:after{content:"";position:absolute;width:220px;height:220px;background:rgba(255,255,255,.10);border-radius:50%;bottom:-90px;left:-60px;animation:floatingShape 7s ease-in-out infinite reverse}.hero-content{position:relative;z-index:2;max-width:900px;margin:auto;animation:fadeUp .8s ease both}.hero-chip{display:inline-block;background:rgba(245,164,0,.18);border:1px solid rgba(245,164,0,.55);color:#ffe7a3;padding:9px 18px;border-radius:40px;font-weight:900;margin-bottom:18px}.page-hero h1{font-size:clamp(34px,5vw,58px);font-weight:950;margin-bottom:14px;letter-spacing:-1px}.page-hero p{font-size:18px;line-height:1.7;max-width:800px;margin:auto;color:rgba(255,255,255,.92)}.page-wrapper{width:100%;padding:42px 5%}.content-card{background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:32px;animation:fadeUp .85s ease both;transition:.35s ease;overflow:hidden;position:relative}.content-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:6px;background:linear-gradient(90deg,var(--gold),var(--blue),var(--navy))}.content-card:hover{transform:translateY(-7px);box-shadow:var(--shadow-hover)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:24px}.section-head h2,.section-head h1{font-weight:950;color:var(--navy);margin:0}.section-sub{color:var(--muted);font-weight:650;margin:6px 0 0}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;margin-bottom:30px}.stat-card{background:linear-gradient(145deg,#fff,#f8fbff);border:1px solid var(--border);border-radius:24px;padding:26px;box-shadow:var(--shadow);transition:.35s ease;animation:fadeUp .9s ease both}.stat-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:var(--shadow-hover);border-color:rgba(245,164,0,.55)}.stat-icon{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--navy));display:grid;place-items:center;color:#fff;font-size:28px;margin-bottom:14px}.stat-card h3{font-weight:950;color:var(--navy);font-size:18px;margin-bottom:8px}.stat-card p{font-size:34px;font-weight:950;color:var(--blue);margin:0}.table-card{background:#fff;border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:24px;overflow:hidden}.table-responsive{border-radius:18px}.table{margin-bottom:0!important;vertical-align:middle}.table thead th{background:linear-gradient(135deg,var(--navy),var(--blue))!important;color:#fff!important;border:0!important;white-space:nowrap}.table tbody tr{transition:.25s ease}.table tbody tr:hover{background:#fff8e6}.btn{border-radius:30px!important;font-weight:850!important;padding:9px 18px!important;transition:.25s ease!important}.btn:hover{transform:translateY(-2px)}.btn-primary{background:linear-gradient(135deg,var(--blue),var(--navy))!important;border:0!important}.btn-success{background:linear-gradient(135deg,#16a34a,#0f7a35)!important;border:0!important}.btn-danger{background:linear-gradient(135deg,#dc2626,#991b1b)!important;border:0!important}.btn-warning{background:var(--gold)!important;border:0!important;color:var(--navy)!important}.search-panel,.form-panel{background:linear-gradient(145deg,#fff,#f8fbff);border:1px solid var(--border);border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-bottom:24px}.form-label{font-weight:900;color:var(--text-dark);margin-bottom:8px}.form-control,.form-select,input,select,textarea{width:100%!important;border:1px solid #bfccdc!important;border-radius:15px!important;padding:11px 15px!important;box-shadow:none!important}.form-control:focus,.form-select:focus,input:focus,select:focus,textarea:focus{border-color:var(--blue)!important;box-shadow:0 0 0 4px rgba(0,76,153,.12)!important}.footer{background:linear-gradient(135deg,#002b5c,#004c99);color:#fff;padding:20px 0;margin-top:35px;font-weight:700}.footer p{margin:0;color:rgba(255,255,255,.90)}.footer .container{align-items:center}.reveal-card{opacity:0;transform:translateY(30px);transition:.75s ease}.reveal-card.show{opacity:1;transform:translateY(0)}@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}@keyframes floatingShape{0%,100%{transform:translateY(0)}50%{transform:translateY(18px)}}@media(max-width:768px){.navbar .container-fluid{padding-left:18px!important;padding-right:18px!important}.page-hero{padding:48px 16px}.page-hero p{font-size:16px}.page-wrapper{padding:30px 14px}.content-card,.table-card,.search-panel,.form-panel{padding:20px;border-radius:22px}.navbar-brand img{width:44px;height:44px}.brand-title{font-size:16px}.footer{text-align:center}.input-group{display:block}.input-group .btn{width:100%;margin-top:10px}.btn{width:100%;margin-bottom:8px}.section-head{display:block}}
+.search-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-panel form {
+    width: 80%;
+}
+
+.search-row {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+}
+
+.search-input {
+    flex: 1;
+    height: 50px;
+    border-radius: 14px 0 0 14px !important;
+}
+
+.search-btn {
+    height: 50px;
+    min-width: 120px;
+    border-radius: 0 14px 14px 0 !important;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .search-panel form {
+        width: 100%;
+    }
+
+    .search-row {
+        flex-direction: row;
+    }
+
+    .search-btn {
+        min-width: 95px;
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+}
+</style></head><body>
+<nav class="navbar navbar-expand-lg main-navbar">
+  <div class="container-fluid px-5">
+    <a class="navbar-brand" href="{% url 'admin_dashboard' %}">
+      <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+      <span><span class="brand-title">Trinity Academy</span><span class="brand-subtitle">ADMIN PANEL</span></span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'view_student_profiles' %}">Students</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'view_alumni_profiles' %}">Alumni</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'add_funding_info' %}">Add Funding</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<section class="page-hero"><div class="hero-content"><span class="hero-chip">🎓 Alumni Management</span><h1>Alumni Profiles</h1><p>Search, review, and manage registered alumni information from one professional admin interface.</p></div></section>
+<section class="page-wrapper">
+<div class="search-panel reveal-card">
+    <form method="GET">
+        <div class="search-row">
+            <input type="text" name="search" class="form-control search-input"
+                   placeholder="Search by name or company" value="{{ query }}">
+            <button type="submit" class="btn btn-primary search-btn">Search</button>
+        </div>
+    </form>
+</div> <div class="content-card reveal-card"><div class="section-head"><div><h2>Alumni Directory</h2><p class="section-sub">Manage alumni records and remove incorrect entries.</p></div></div><div class="table-responsive"><table class="table table-striped table-bordered align-middle"><thead><tr><th>Full Name</th><th>Currently Working</th><th>Company Name</th><th>Position</th><th>Location</th><th>LinkedIn</th><th>Delete</th></tr></thead><tbody>{% if alumni %}{% for alum in alumni %}<tr><td>{{ alum.full_name }}</td><td>{{ alum.current_working }}</td><td>{{ alum.company_name }}</td><td>{{ alum.position }}</td><td>{{ alum.location }}</td><td><a href="{{ alum.linkedin }}" target="_blank" class="btn btn-primary btn-sm">LinkedIn</a></td><td><form method="POST" action="" class="m-0">{% csrf_token %}<input type="hidden" name="alumni_id" value="{{ alum.id }}"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form></td></tr>{% endfor %}{% else %}<tr><td colspan="7" class="text-center text-muted py-4">No alumni found.</td></tr>{% endif %}</tbody></table></div></div>
+</section>
+
+<footer class="footer"><div class="container d-flex justify-content-between flex-wrap gap-2"><p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p><p>Students • Alumni • Careers • Innovation</p></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+ const cards=document.querySelectorAll(".reveal-card,.stat-card,.content-card,.table-card,.search-panel,.form-panel");
+ const observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("show");}});},{threshold:.12});
+ cards.forEach(function(card,index){card.style.transitionDelay=(index*.05)+"s";observer.observe(card);});
+});
+</script>
+</body></html>

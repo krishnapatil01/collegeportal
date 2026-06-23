@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Information - Trinity Alumni Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0,43,92,0.15);
+            --shadow-hover: 0 26px 65px rgba(0,43,92,0.28);
+            --danger: #dc2626;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+            overflow-x: hidden;
+        }
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0,43,92,0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+        .navbar-brand img { width: 54px; height: 54px; object-fit: contain; }
+        .brand-title { font-size: 18px; display: block; }
+        .brand-subtitle { font-size: 12px; color: var(--blue); letter-spacing: 1px; display: block; }
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 13px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+            transform: translateY(-2px);
+        }
+        .navbar-toggler { border: 1px solid rgba(0,43,92,0.25); }
+        .page-hero {
+            width: 100%;
+            padding: 78px 20px;
+            background:
+                linear-gradient(rgba(0,43,92,0.88), rgba(0,76,153,0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            background: rgba(245,164,0,0.20);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+            animation: floatingShape 7s ease-in-out infinite reverse;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 930px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245,164,0,0.18);
+            border: 1px solid rgba(245,164,0,0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 60px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: auto;
+            color: rgba(255,255,255,0.92);
+        }
+        .page-wrapper { width: 100%; padding: 48px 5%; }
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+        .footer p { margin: 0; color: rgba(255,255,255,0.90); }
+        .btn-theme {
+            display: inline-block;
+            border: none;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 13px 26px;
+            border-radius: 32px;
+            font-weight: 950;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 12px 26px rgba(0,43,92,0.26);
+            transition: 0.3s ease;
+        }
+        .btn-theme:hover { transform: translateY(-4px) scale(1.02); color: #ffffff; box-shadow: 0 18px 34px rgba(0,43,92,0.34); }
+        .btn-light-theme {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--navy);
+            padding: 12px 23px;
+            border-radius: 32px;
+            font-weight: 950;
+            border: 2px solid var(--blue);
+            text-decoration: none;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+        .btn-light-theme:hover { background: var(--gold-light); color: var(--blue); transform: translateY(-3px); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatingShape { 0%,100% { transform: translateY(0); } 50% { transform: translateY(18px); } }
+        @keyframes cardZoomIn { from { opacity: 0; transform: scale(0.88) translateY(35px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes zoomPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.012); } }
+        @keyframes iconFloat { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-7px) scale(1.05); } }
+        .reveal-card { opacity: 0; transform: translateY(35px) scale(0.96); transition: 0.75s ease; }
+        .reveal-card.show { opacity: 1; transform: translateY(0) scale(1); }
+        @media (max-width: 768px) {
+            .navbar .container-fluid { padding-left: 18px !important; padding-right: 18px !important; }
+            .page-hero { padding: 52px 16px; }
+            .page-hero p { font-size: 16px; }
+            .page-wrapper { padding: 32px 14px; }
+            .navbar-brand img { width: 44px; height: 44px; }
+            .brand-title { font-size: 16px; }
+            .footer { text-align: center; }
+        }
+
+
+        .funding-grid { max-width: 1280px; margin: auto; display: grid; gap: 26px; }
+        .funding-card { background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: 28px; box-shadow: var(--shadow); padding: 28px; display: grid; grid-template-columns: 1fr 240px; gap: 24px; align-items: center; position: relative; overflow: hidden; transition: .35s ease; animation: cardZoomIn .75s ease both, zoomPulse 4.5s ease-in-out infinite; }
+        .funding-card:hover { transform: translateY(-12px) scale(1.02) !important; box-shadow: var(--shadow-hover); border-color: rgba(245,164,0,0.55); animation-play-state: paused; }
+        .funding-card::before { content:""; position:absolute; top:0; left:0; width:100%; height:6px; background:linear-gradient(90deg,var(--gold),var(--blue),var(--navy)); }
+        .funding-icon { width:62px; height:62px; border-radius:22px; display:grid; place-items:center; background:linear-gradient(135deg,var(--blue),var(--navy)); color:white; font-size:30px; margin-bottom:16px; box-shadow:0 14px 28px rgba(0,43,92,.25); animation:iconFloat 3s ease-in-out infinite; }
+        .funding-card h5 { font-size:24px; font-weight:950; color:var(--navy); margin-bottom:12px; }
+        .funding-description { white-space: pre-wrap; color:var(--text-dark); font-weight:650; line-height:1.7; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background:#f8fbff; border:1px solid #dbe5f5; border-radius:18px; padding:14px; }
+        .amount-badge { display:inline-block; background:var(--gold-light); color:#8a5a00; border:1px solid rgba(245,164,0,.38); padding:9px 15px; border-radius:28px; font-weight:950; margin-top:12px; }
+        .qr-box { text-align:center; background:#f8fbff; border:1px solid #dbe5f5; border-radius:22px; padding:18px; }
+        .qr-box img { max-width:100%; max-height:220px; border-radius:16px; box-shadow:0 12px 26px rgba(0,43,92,.14); }
+        .empty-card { max-width:780px; margin:auto; background:#fff; border:1px solid var(--border); border-radius:28px; padding:45px 25px; text-align:center; box-shadow:var(--shadow); }
+        @media(max-width:900px){ .funding-card{ grid-template-columns:1fr; } .qr-box img{ max-height:260px; } }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand" href="{% url 'alumni_dashboard' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">ALUMNI RESOURCES</span>
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'alumni_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_alumni_profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'create_post' %}">Add Post</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'upload_resource' %}">Upload Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_uploaded_notes' %}">My Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_funding_info' %}">Funding</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<section class="page-hero"><div class="hero-content"><span class="hero-chip">💰 Funding Information</span><h1>Funding & Support Details</h1><p>View funding information, donation requirements, descriptions, and QR code details shared by the institute.</p></div></section>
+<section class="page-wrapper">{% if funding_list %}<div class="funding-grid">{% for funding in funding_list %}<div class="funding-card reveal-card"><div><div class="funding-icon">💰</div><h5>{{ funding.title }}</h5><pre class="funding-description">{{ funding.description }}</pre>{% if funding.amount_required %}<span class="amount-badge">Amount Required: ${{ funding.amount_required }}</span>{% endif %}</div>{% if funding.qr_code %}<div class="qr-box"><img src="{{ funding.qr_code.url }}" alt="QR Code"><p class="text-muted fw-bold mt-3 mb-0">Scan QR for payment</p></div>{% endif %}</div>{% endfor %}</div>{% else %}<div class="empty-card reveal-card"><h4>No Funding Information Available</h4><p class="text-muted mb-0">Funding information will be shown here when available.</p></div>{% endif %}</section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".reveal-card");
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) entry.target.classList.add("show");
+            });
+        }, { threshold: 0.12 });
+        cards.forEach(function (card, index) {
+            card.style.transitionDelay = (index * 0.07) + "s";
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

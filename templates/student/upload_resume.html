@@ -1,0 +1,692 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume - Trinity Alumni Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0, 43, 92, 0.15);
+            --shadow-hover: 0 26px 65px rgba(0, 43, 92, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+            overflow-x: hidden;
+        }
+
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0,43,92,0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .navbar-brand img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            display: block;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--blue);
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 13px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(0,43,92,0.25);
+        }
+
+        .page-hero {
+            width: 100%;
+            padding: 76px 20px;
+            background:
+                linear-gradient(rgba(0,43,92,0.88), rgba(0,76,153,0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            background: rgba(245,164,0,0.20);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+            animation: floatingShape 7s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 930px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245,164,0,0.18);
+            border: 1px solid rgba(245,164,0,0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 60px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: auto;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .page-wrapper {
+            width: 100%;
+            padding: 48px 5%;
+        }
+
+        .upload-layout {
+            max-width: 1180px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            align-items: stretch;
+        }
+
+        .info-panel,
+        .upload-card {
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            animation: cardZoomIn 0.75s ease both;
+        }
+
+        .info-panel {
+            padding: 42px;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 90% 88%, rgba(245,164,0,0.45), transparent 16%),
+                linear-gradient(145deg, var(--navy), var(--blue));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-panel::after {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            right: -85px;
+            bottom: -85px;
+            background: rgba(255,255,255,0.10);
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+
+        .info-panel h2 {
+            font-size: 34px;
+            font-weight: 950;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-panel p {
+            color: rgba(255,255,255,0.92);
+            line-height: 1.7;
+            font-weight: 600;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .benefit-list li {
+            display: flex;
+            gap: 13px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .check-icon {
+            width: 25px;
+            height: 25px;
+            min-width: 25px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--navy);
+            display: grid;
+            place-items: center;
+            font-weight: 950;
+        }
+
+        .upload-card {
+            background: rgba(255,255,255,0.97);
+            border: 1px solid var(--border);
+            padding: 38px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.35s ease;
+        }
+
+        .upload-card:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(245,164,0,0.55);
+        }
+
+        .upload-card::before {
+            content: "";
+            position: absolute;
+            height: 6px;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background: linear-gradient(90deg, var(--gold), var(--blue), var(--navy));
+        }
+
+        .form-badge {
+            display: inline-block;
+            background: var(--gold-light);
+            border: 1px solid rgba(245,164,0,0.40);
+            color: #9a6500;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .upload-card h2 {
+            font-size: 34px;
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .title-line {
+            width: 82px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 10px;
+            margin-bottom: 26px;
+        }
+
+        .upload-box {
+            border: 2px dashed #b9c9dc;
+            border-radius: 24px;
+            padding: 34px 24px;
+            text-align: center;
+            background: #f8fbff;
+            transition: 0.35s ease;
+            margin-bottom: 24px;
+        }
+
+        .upload-box:hover {
+            border-color: var(--blue);
+            background: #eef6ff;
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            width: 84px;
+            height: 84px;
+            border-radius: 28px;
+            margin: 0 auto 18px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            font-size: 42px;
+            box-shadow: 0 16px 32px rgba(0,43,92,0.24);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .form-control {
+            width: 100%;
+            border: 1px solid #bfccdc;
+            border-radius: 16px;
+            padding: 12px 14px;
+            background: #ffffff;
+            box-shadow: none;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(0,76,153,0.12);
+        }
+
+        .hint-text {
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
+
+        .btn-custom {
+            border: none;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 13px 28px;
+            border-radius: 32px;
+            font-weight: 950;
+            box-shadow: 0 12px 26px rgba(0,43,92,0.26);
+            transition: 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-4px) scale(1.02);
+            color: #ffffff;
+            box-shadow: 0 18px 34px rgba(0,43,92,0.34);
+        }
+
+        .btn-secondary {
+            padding: 13px 28px;
+            border-radius: 32px;
+            font-weight: 900;
+            transition: 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+        }
+
+        .format-grid {
+            max-width: 1180px;
+            margin: 38px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .format-card {
+            background: rgba(255,255,255,0.97);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: 0.35s ease;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .format-card:hover {
+            transform: translateY(-10px) scale(1.035);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .format-card h4 {
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .format-card p {
+            color: var(--muted);
+            font-weight: 650;
+            margin: 0;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+
+        .footer p {
+            margin: 0;
+            color: rgba(255,255,255,0.90);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatingShape {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(18px); }
+        }
+
+        @keyframes cardZoomIn {
+            from { opacity: 0; transform: scale(0.88) translateY(35px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes iconFloat {
+            0%,100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-7px) scale(1.05); }
+        }
+
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(35px) scale(0.96);
+            transition: 0.75s ease;
+        }
+
+        .reveal-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        @media (max-width: 992px) {
+            .upload-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .format-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container-fluid {
+                padding-left: 18px !important;
+                padding-right: 18px !important;
+            }
+
+            .page-hero {
+                padding: 52px 16px;
+            }
+
+            .page-hero p {
+                font-size: 16px;
+            }
+
+            .page-wrapper {
+                padding: 32px 14px;
+            }
+
+            .info-panel,
+            .upload-card {
+                padding: 26px 20px;
+                border-radius: 24px;
+            }
+
+            .info-panel h2,
+            .upload-card h2 {
+                font-size: 28px;
+            }
+
+            .navbar-brand img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .brand-title {
+                font-size: 16px;
+            }
+
+            .btn-custom,
+            .btn-secondary {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .footer {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand" href="{% url 'student_dashboard' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">RESUME ANALYZER</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse show" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_job_port' %}">Job Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'chatbot' %}">Chatbot</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Upload Resume</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="hero-content">
+        <span class="hero-chip">📄 Smart Resume Analyzer</span>
+        <h1>Upload Your Resume</h1>
+        <p>
+            Upload PDF, DOCX, or TXT resume. The system will extract resume content
+            and recommend jobs from the existing Job Board.
+        </p>
+    </div>
+</section>
+
+<section class="page-wrapper">
+
+    <div class="upload-layout">
+
+        <div class="info-panel reveal-card">
+            <h2>How Resume Analyzer Helps</h2>
+            <p>
+                This feature reads your resume, extracts important content, and recommends
+                suitable opportunities from the existing job board.
+            </p>
+
+            <ul class="benefit-list">
+                <li><span class="check-icon">✓</span> Extract resume text from PDF, DOCX, and TXT files</li>
+                <li><span class="check-icon">✓</span> Identify resume skills, education, and experience details</li>
+                <li><span class="check-icon">✓</span> Match your resume content with available jobs</li>
+                <li><span class="check-icon">✓</span> Display recommended jobs based on current Job Board posts</li>
+                <li><span class="check-icon">✓</span> Supports scanned PDFs when Tesseract OCR is installed</li>
+            </ul>
+        </div>
+
+        <div class="upload-card reveal-card">
+            <span class="form-badge">Resume Upload</span>
+            <h2>Select Resume File</h2>
+            <div class="title-line"></div>
+
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="upload-box">
+                    <div class="upload-icon">📤</div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Select Resume File</label>
+
+                        <input type="file"
+                               name="resume_file"
+                               class="form-control"
+                               accept=".pdf,.docx,.txt"
+                               required>
+
+                        <p class="hint-text">
+                            Supported formats: PDF, DOCX, TXT. Scanned PDFs need Tesseract OCR.
+                        </p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-custom">Analyze Resume</button>
+                <a href="{% url 'student_dashboard' %}" class="btn btn-secondary">Back</a>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="format-grid">
+        <div class="format-card reveal-card">
+            <h4>PDF Resume</h4>
+            <p>Upload standard text-based PDF resumes. Scanned PDFs need OCR support.</p>
+        </div>
+
+        <div class="format-card reveal-card">
+            <h4>DOCX Resume</h4>
+            <p>DOCX format gives better extraction accuracy for resume parser technique.</p>
+        </div>
+
+        <div class="format-card reveal-card">
+            <h4>TXT Resume</h4>
+            <p>TXT resumes are simple and easy for keyword-based job matching.</p>
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".reveal-card");
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.12 });
+
+        cards.forEach(function (card, index) {
+            card.style.transitionDelay = (index * 0.07) + "s";
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

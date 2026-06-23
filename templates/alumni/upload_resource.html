@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resource - Trinity Alumni Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0,43,92,0.15);
+            --shadow-hover: 0 26px 65px rgba(0,43,92,0.28);
+            --danger: #dc2626;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+            overflow-x: hidden;
+        }
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0,43,92,0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+        .navbar-brand img { width: 54px; height: 54px; object-fit: contain; }
+        .brand-title { font-size: 18px; display: block; }
+        .brand-subtitle { font-size: 12px; color: var(--blue); letter-spacing: 1px; display: block; }
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 13px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+            white-space: nowrap;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+            transform: translateY(-2px);
+        }
+        .navbar-toggler { border: 1px solid rgba(0,43,92,0.25); }
+        .page-hero {
+            width: 100%;
+            padding: 78px 20px;
+            background:
+                linear-gradient(rgba(0,43,92,0.88), rgba(0,76,153,0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            background: rgba(245,164,0,0.20);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+            animation: floatingShape 7s ease-in-out infinite reverse;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 930px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245,164,0,0.18);
+            border: 1px solid rgba(245,164,0,0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 60px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: auto;
+            color: rgba(255,255,255,0.92);
+        }
+        .page-wrapper { width: 100%; padding: 48px 5%; }
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+        .footer p { margin: 0; color: rgba(255,255,255,0.90); }
+        .btn-theme {
+            display: inline-block;
+            border: none;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 13px 26px;
+            border-radius: 32px;
+            font-weight: 950;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 12px 26px rgba(0,43,92,0.26);
+            transition: 0.3s ease;
+        }
+        .btn-theme:hover { transform: translateY(-4px) scale(1.02); color: #ffffff; box-shadow: 0 18px 34px rgba(0,43,92,0.34); }
+        .btn-light-theme {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--navy);
+            padding: 12px 23px;
+            border-radius: 32px;
+            font-weight: 950;
+            border: 2px solid var(--blue);
+            text-decoration: none;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+        .btn-light-theme:hover { background: var(--gold-light); color: var(--blue); transform: translateY(-3px); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatingShape { 0%,100% { transform: translateY(0); } 50% { transform: translateY(18px); } }
+        @keyframes cardZoomIn { from { opacity: 0; transform: scale(0.88) translateY(35px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes zoomPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.012); } }
+        @keyframes iconFloat { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-7px) scale(1.05); } }
+        .reveal-card { opacity: 0; transform: translateY(35px) scale(0.96); transition: 0.75s ease; }
+        .reveal-card.show { opacity: 1; transform: translateY(0) scale(1); }
+        @media (max-width: 768px) {
+            .navbar .container-fluid { padding-left: 18px !important; padding-right: 18px !important; }
+            .page-hero { padding: 52px 16px; }
+            .page-hero p { font-size: 16px; }
+            .page-wrapper { padding: 32px 14px; }
+            .navbar-brand img { width: 44px; height: 44px; }
+            .brand-title { font-size: 16px; }
+            .footer { text-align: center; }
+        }
+
+
+        .form-layout { max-width: 1240px; margin: auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 34px; align-items: stretch; }
+        .info-panel { padding: 40px; color: #ffffff; border-radius: 28px; box-shadow: var(--shadow); background: radial-gradient(circle at 90% 88%, rgba(245,164,0,0.45), transparent 16%), linear-gradient(145deg, var(--navy), var(--blue)); position: relative; overflow: hidden; animation: cardZoomIn 0.75s ease both; }
+        .info-panel h2 { font-size: 32px; font-weight: 950; margin-bottom: 14px; }
+        .info-panel p { color: rgba(255,255,255,0.92); line-height: 1.7; font-weight: 600; margin-bottom: 24px; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 18px; font-weight: 800; }
+        .check-icon { width: 25px; height: 25px; min-width: 25px; border-radius: 50%; background: var(--gold); color: var(--navy); display: grid; place-items: center; font-weight: 950; }
+        .form-card { background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: 28px; box-shadow: var(--shadow); padding: 38px; position: relative; overflow: hidden; animation: cardZoomIn 0.8s ease both; transition: 0.35s ease; }
+        .form-card:hover { transform: translateY(-8px) scale(1.005); box-shadow: var(--shadow-hover); border-color: rgba(245,164,0,0.55); }
+        .form-card::before { content: ""; position: absolute; height: 6px; width: 100%; left: 0; top: 0; background: linear-gradient(90deg, var(--gold), var(--blue), var(--navy)); }
+        .form-badge { display: inline-block; background: var(--gold-light); border: 1px solid rgba(245,164,0,0.40); color: #9a6500; padding: 8px 16px; border-radius: 30px; font-size: 14px; font-weight: 900; margin-bottom: 15px; }
+        .form-card h2 { color: var(--navy); font-weight: 950; margin-bottom: 8px; }
+        .title-line { width: 82px; height: 5px; background: var(--gold); border-radius: 10px; margin-bottom: 26px; }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 18px 22px; }
+        .form-label { display: block; font-weight: 900; color: var(--navy); margin-bottom: 8px; font-size: 14px; }
+        .form-control { width: 100%; border: 1px solid #bfccdc; border-radius: 16px; padding: 12px 14px; background: #ffffff; box-shadow: none; outline: none; font-weight: 650; }
+        .form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(0,76,153,0.12); }
+        textarea.form-control { min-height: 125px; resize: vertical; }
+        .file-box { border: 2px dashed #b9c9dc; border-radius: 22px; padding: 20px; background: #f8fbff; transition: .35s ease; }
+        .file-box:hover { border-color: var(--blue); background: #eef6ff; transform: scale(1.01); }
+        .action-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+        .action-row .btn-theme, .action-row .btn-light-theme { flex: 1; }
+        @media (max-width: 992px) { .form-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .info-panel, .form-card { padding: 26px 20px; border-radius: 24px; } .action-row { flex-direction: column; } }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand" href="{% url 'alumni_dashboard' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">ALUMNI RESOURCES</span>
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'alumni_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_alumni_profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'create_post' %}">Add Post</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'upload_resource' %}">Upload Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_uploaded_notes' %}">My Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_funding_info' %}">Funding</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<section class="page-hero"><div class="hero-content"><span class="hero-chip">📚 Upload Notes</span><h1>Share Learning Resources</h1><p>Upload notes, PDFs, videos, images, and useful study materials for students and alumni.</p></div></section>
+<section class="page-wrapper"><div class="form-layout">
+<div class="info-panel reveal-card"><h2>Help students learn better</h2><p>Your uploaded resources can support placements, academic preparation, projects, interviews, and career development.</p><ul class="feature-list"><li><span class="check-icon">✓</span> Upload notes, PDFs, images, or videos</li><li><span class="check-icon">✓</span> Add a clear title and useful description</li><li><span class="check-icon">✓</span> Share placement and interview resources</li><li><span class="check-icon">✓</span> Help juniors prepare for exams and projects</li></ul></div>
+<div class="form-card reveal-card"><span class="form-badge">Resource Upload</span><h2>Upload Your Resource</h2><div class="title-line"></div><form method="POST" enctype="multipart/form-data">{% csrf_token %}<div class="form-grid"><div><label for="title" class="form-label">Resource Title</label><input type="text" id="title" name="title" class="form-control" placeholder="Enter resource title" required></div><div><label for="description" class="form-label">Description</label><textarea id="description" name="description" class="form-control" rows="4" placeholder="Enter a brief description" required></textarea></div><div class="file-box"><label for="file" class="form-label">Upload File</label><input type="file" id="file" name="file" class="form-control" required><small class="text-muted fw-bold d-block mt-2">Supported: PDF, image, video, documents.</small></div></div><div class="action-row"><button type="submit" class="btn-theme">Upload Resource</button><a href="{% url 'view_uploaded_notes' %}" class="btn-light-theme">View My Notes</a></div></form></div>
+</div></section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".reveal-card");
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) entry.target.classList.add("show");
+            });
+        }, { threshold: 0.12 });
+        cards.forEach(function (card, index) {
+            card.style.transitionDelay = (index * 0.07) + "s";
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

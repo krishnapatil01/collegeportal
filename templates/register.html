@@ -1,0 +1,667 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Trinity Alumni Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --white: #ffffff;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0, 43, 92, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+        }
+
+        /* Navbar */
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .navbar-brand img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            display: block;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--blue);
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 15px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+        }
+
+        /* Hero Section */
+        .page-hero {
+            width: 100%;
+            padding: 75px 20px;
+            background:
+                linear-gradient(rgba(0, 43, 92, 0.88), rgba(0, 76, 153, 0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            background: rgba(245, 164, 0, 0.18);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245, 164, 0, 0.18);
+            border: 1px solid rgba(245, 164, 0, 0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 58px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 760px;
+            margin: auto;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        /* Page Layout */
+        .page-wrapper {
+            width: 100%;
+            padding: 40px 5%;
+        }
+
+        .register-layout {
+            max-width: 1280px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            align-items: stretch;
+        }
+
+        .info-panel {
+            min-height: 650px;
+            border-radius: 26px;
+            padding: 42px;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 90% 88%, rgba(245,164,0,0.45), transparent 16%),
+                linear-gradient(145deg, #002b5c, #004c99);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .info-panel h1 {
+            font-size: 34px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .info-panel p {
+            color: rgba(255,255,255,0.92);
+            font-weight: 500;
+            margin-bottom: 26px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefit-list li {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 19px;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--navy);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        .register-card {
+            min-height: 650px;
+            background: rgba(255,255,255,0.96);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+            padding: 34px;
+            animation: fadeUp 0.85s ease both;
+        }
+
+        .form-badge {
+            display: inline-block;
+            background: var(--gold-light);
+            border: 1px solid rgba(245,164,0,0.40);
+            color: #9a6500;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .register-card h2 {
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .title-line {
+            width: 82px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 10px;
+            margin-bottom: 26px;
+        }
+
+        /* Correct Form Alignment */
+        .django-register-form {
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .form-fields-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 18px 24px !important;
+            width: 100% !important;
+        }
+
+        .field-box {
+            width: 100% !important;
+            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .field-box label {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 0 8px 0 !important;
+            padding: 0 !important;
+            font-size: 14px !important;
+            font-weight: 900 !important;
+            color: var(--text-dark) !important;
+            line-height: 1.3 !important;
+            text-align: left !important;
+        }
+
+        .field-box input,
+        .field-box select,
+        .field-box textarea {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            height: 50px !important;
+            margin: 0 !important;
+            padding: 11px 15px !important;
+            border: 1px solid #bfccdc !important;
+            border-radius: 15px !important;
+            font-size: 15px !important;
+            color: var(--text-dark) !important;
+            background-color: #ffffff !important;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        .field-box textarea {
+            height: auto !important;
+            min-height: 100px !important;
+            resize: vertical !important;
+        }
+
+        .field-box input:focus,
+        .field-box select:focus,
+        .field-box textarea:focus {
+            border-color: var(--blue) !important;
+            box-shadow: 0 0 0 4px rgba(0,76,153,0.12) !important;
+        }
+
+        .field-box input[type="checkbox"],
+        .field-box input[type="radio"] {
+            width: auto !important;
+            height: auto !important;
+            display: inline-block !important;
+            margin-right: 8px !important;
+        }
+
+        .helptext {
+            display: block !important;
+            font-size: 12px !important;
+            color: var(--muted) !important;
+            margin-top: 6px !important;
+        }
+
+        .errorlist {
+            margin: 6px 0 0 0 !important;
+            padding-left: 18px !important;
+            color: #dc2626 !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+        }
+
+        .alert {
+            border-radius: 16px;
+            border: none;
+            font-weight: 700;
+        }
+
+        .submit-row {
+            margin-top: 28px;
+        }
+
+        .btn-register {
+            border: none;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 13px 30px;
+            border-radius: 32px;
+            font-weight: 900;
+            box-shadow: 0 12px 26px rgba(0,43,92,0.26);
+            transition: 0.3s ease;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 34px rgba(0,43,92,0.34);
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: #ffffff;
+        }
+
+        .login-text {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .login-text a {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .login-text a:hover {
+            color: var(--gold);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+
+        .footer p {
+            margin: 0;
+            color: rgba(255,255,255,0.90);
+        }
+
+        .footer .container {
+            align-items: center;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .register-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .info-panel,
+            .register-card {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container-fluid {
+                padding-left: 18px !important;
+                padding-right: 18px !important;
+            }
+
+            .page-hero {
+                padding: 50px 16px;
+            }
+
+            .page-hero p {
+                font-size: 16px;
+            }
+
+            .page-wrapper {
+                padding: 28px 14px;
+            }
+
+            .form-fields-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .info-panel,
+            .register-card {
+                padding: 26px 20px;
+                border-radius: 22px;
+            }
+
+            .info-panel h1,
+            .register-card h2 {
+                font-size: 28px;
+            }
+
+            .navbar-brand img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .brand-title {
+                font-size: 16px;
+            }
+
+            .btn-register {
+                width: 100%;
+            }
+
+            .footer {
+                text-align: center;
+            }
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+        .password-wrapper input {
+            padding-right: 45px !important;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            z-index: 10;
+        }
+        .toggle-password:hover {
+            color: var(--blue);
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-5">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">ALUMNI PORTAL</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'register' %}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'admin_login' %}">Admin Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="hero-content">
+        <span class="hero-chip">🎓 Join the Network</span>
+        <h1>Create Your Account</h1>
+        <p>Register as a student or alumni member and become part of a professional academic and career network.</p>
+    </div>
+</section>
+
+<section class="page-wrapper">
+    <div class="register-layout">
+
+        <div class="info-panel">
+            <h1>Why register?</h1>
+            <p>After admin approval, you can access personalized features based on your role.</p>
+
+            <ul class="benefit-list">
+                <li><span class="check-icon">✓</span> Students can search alumni and upload resumes</li>
+                <li><span class="check-icon">✓</span> Alumni can share jobs, posts, and resources</li>
+                <li><span class="check-icon">✓</span> Explore notes, internships, and career guidance</li>
+                <li><span class="check-icon">✓</span> Build a professional institute network</li>
+                <li><span class="check-icon">✓</span> Get resume-based job recommendations</li>
+                <li><span class="check-icon">✓</span> Use chatbot support for portal guidance</li>
+            </ul>
+        </div>
+
+        <div class="register-card">
+            <span class="form-badge">New Registration</span>
+            <h2>Register</h2>
+            <div class="title-line"></div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" class="django-register-form" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-fields-grid">
+                    {% for field in form %}
+                        <div class="field-box">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% if field.name == 'password' %}
+                                <div class="password-wrapper">
+                                    {{ field }}
+                                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('{{ field.id_for_label }}', this)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            {% else %}
+                                {{ field }}
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <span class="helptext">{{ field.help_text }}</span>
+                            {% endif %}
+
+                            {{ field.errors }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="submit-row">
+                    <button type="submit" class="btn-register">Create Account</button>
+                </div>
+
+                <div class="login-text">
+                    Already have an account?
+                    <a href="{% url 'login' %}">Login here</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function togglePasswordVisibility(fieldId, button) {
+    const field = document.getElementById(fieldId);
+    const icon = button.querySelector('i');
+    if (field.type === 'password') {
+        field.type = 'text';
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+    } else {
+        field.type = 'password';
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+    }
+}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".field-box input").forEach(function (el) {
+            el.classList.add("form-control");
+        });
+
+        document.querySelectorAll(".field-box select").forEach(function (el) {
+            el.classList.add("form-select");
+        });
+
+        document.querySelectorAll(".field-box textarea").forEach(function (el) {
+            el.classList.add("form-control");
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,568 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Pending - Trinity Alumni Portal</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #002b5c;
+            --blue: #004c99;
+            --gold: #f5a400;
+            --gold-light: #fff3d1;
+            --text-dark: #061b3a;
+            --muted: #607089;
+            --white: #ffffff;
+            --border: #d9e2ef;
+            --shadow: 0 18px 45px rgba(0, 43, 92, 0.15);
+            --shadow-hover: 0 24px 60px rgba(0, 43, 92, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text-dark);
+            background:
+                linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.88)),
+                linear-gradient(90deg, rgba(0,43,92,0.06) 1px, transparent 1px),
+                linear-gradient(rgba(0,43,92,0.06) 1px, transparent 1px);
+            background-size: auto, 40px 40px, 40px 40px;
+        }
+
+        /* Navbar */
+        .main-navbar {
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.10);
+            padding: 13px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: var(--navy) !important;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .navbar-brand img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            display: block;
+        }
+
+        .brand-subtitle {
+            font-size: 12px;
+            color: var(--blue);
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 800;
+            padding: 10px 15px !important;
+            border-radius: 28px;
+            transition: 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            background: var(--gold-light);
+            color: var(--blue) !important;
+        }
+
+        /* Hero */
+        .page-hero {
+            width: 100%;
+            padding: 75px 20px;
+            background:
+                linear-gradient(rgba(0, 43, 92, 0.88), rgba(0, 76, 153, 0.84)),
+                url("{% static 'images/log.jpg' %}") center/cover no-repeat;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            background: rgba(245, 164, 0, 0.18);
+            border-radius: 50%;
+            top: -80px;
+            right: -70px;
+            animation: floatingShape 6s ease-in-out infinite;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            bottom: -90px;
+            left: -60px;
+            animation: floatingShape 7s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 850px;
+            margin: auto;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: rgba(245, 164, 0, 0.18);
+            border: 1px solid rgba(245, 164, 0, 0.55);
+            color: #ffe7a3;
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(34px, 5vw, 58px);
+            font-weight: 950;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 760px;
+            margin: auto;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        /* Main */
+        .page-wrapper {
+            width: 100%;
+            min-height: 55vh;
+            padding: 55px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pending-card {
+            width: min(900px, 100%);
+            background: rgba(255,255,255,0.97);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            padding: 50px 36px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.9s ease both;
+            transition: 0.35s ease;
+        }
+
+        .pending-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .pending-card::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            left: 0;
+            top: 0;
+            background: linear-gradient(90deg, var(--gold), var(--blue), var(--navy));
+        }
+
+        .pending-card::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(245,164,0,0.12);
+            right: -90px;
+            bottom: -90px;
+        }
+
+        .pending-icon {
+            width: 95px;
+            height: 95px;
+            border-radius: 32px;
+            margin: 0 auto 24px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--gold), #ffc247);
+            color: var(--navy);
+            font-size: 45px;
+            font-weight: 950;
+            box-shadow: 0 18px 35px rgba(245,164,0,0.28);
+            animation: pulseIcon 2.2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pending-card h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pending-card p {
+            max-width: 680px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.8;
+            font-weight: 650;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-steps {
+            max-width: 720px;
+            margin: 34px auto 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-box {
+            background: #f8fbff;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 22px 15px;
+            transition: 0.35s ease;
+        }
+
+        .step-box:hover {
+            transform: translateY(-8px);
+            border-color: rgba(245,164,0,0.55);
+            box-shadow: 0 16px 35px rgba(0,43,92,0.12);
+        }
+
+        .step-icon {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 12px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            font-size: 21px;
+        }
+
+        .step-box h5 {
+            font-weight: 950;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .step-box small {
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            margin-top: 34px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--blue), var(--navy));
+            color: #ffffff;
+            padding: 13px 30px;
+            border-radius: 32px;
+            font-weight: 950;
+            text-decoration: none;
+            box-shadow: 0 12px 26px rgba(0,43,92,0.26);
+            transition: 0.3s ease;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-4px);
+            color: #ffffff;
+            box-shadow: 0 18px 34px rgba(0,43,92,0.34);
+        }
+
+        .btn-outline-main {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--navy);
+            padding: 12px 29px;
+            border-radius: 32px;
+            font-weight: 950;
+            text-decoration: none;
+            border: 2px solid var(--blue);
+            transition: 0.3s ease;
+        }
+
+        .btn-outline-main:hover {
+            background: var(--gold-light);
+            color: var(--blue);
+            transform: translateY(-4px);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #002b5c, #004c99);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 35px;
+            font-weight: 700;
+        }
+
+        .footer p {
+            margin: 0;
+            color: rgba(255,255,255,0.90);
+        }
+
+        .footer .container {
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(26px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatingShape {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(18px);
+            }
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 18px 35px rgba(245,164,0,0.28);
+            }
+            50% {
+                transform: scale(1.07);
+                box-shadow: 0 22px 42px rgba(245,164,0,0.38);
+            }
+        }
+
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.75s ease;
+        }
+
+        .reveal-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .status-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .container-fluid {
+                padding-left: 18px !important;
+                padding-right: 18px !important;
+            }
+
+            .page-hero {
+                padding: 50px 16px;
+            }
+
+            .page-hero p {
+                font-size: 16px;
+            }
+
+            .page-wrapper {
+                padding: 35px 14px;
+            }
+
+            .pending-card {
+                padding: 36px 20px;
+                border-radius: 24px;
+            }
+
+            .navbar-brand img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .brand-title {
+                font-size: 16px;
+            }
+
+            .btn-main,
+            .btn-outline-main {
+                width: 100%;
+                text-align: center;
+            }
+
+            .footer {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-5">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span>
+                <span class="brand-title">Trinity Academy</span>
+                <span class="brand-subtitle">ALUMNI PORTAL</span>
+            </span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'admin_login' %}">Admin Login</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-hero">
+    <div class="hero-content">
+        <span class="hero-chip">⏳ Approval Pending</span>
+        <h1>Registration Under Review</h1>
+        <p>Your account request has been submitted successfully. Admin approval is required before login access is enabled.</p>
+    </div>
+</section>
+
+<section class="page-wrapper">
+    <div class="pending-card reveal-card">
+
+        <div class="pending-icon">✓</div>
+
+        <h2>Your Registration is Pending</h2>
+
+        <p>
+            Thank you for registering with Trinity Academy Alumni Portal.
+            Your account is currently waiting for admin approval.
+            Once approved, you can login and access your dashboard features.
+        </p>
+
+        <div class="status-steps">
+            <div class="step-box reveal-card">
+                <div class="step-icon">📝</div>
+                <h5>Step 1</h5>
+                <small>Registration submitted successfully</small>
+            </div>
+
+            <div class="step-box reveal-card">
+                <div class="step-icon">🔍</div>
+                <h5>Step 2</h5>
+                <small>Admin will verify your account details</small>
+            </div>
+
+            <div class="step-box reveal-card">
+                <div class="step-icon">✅</div>
+                <h5>Step 3</h5>
+                <small>After approval, login access will be enabled</small>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{% url 'login' %}" class="btn-main">Go to Login</a>
+            <a href="{% url 'index' %}" class="btn-outline-main">Back to Home</a>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".reveal-card");
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, {
+            threshold: 0.12
+        });
+
+        cards.forEach(function (card, index) {
+            card.style.transitionDelay = (index * 0.08) + "s";
+            observer.observe(card);
+        });
+    });
+</script>
+
+</body>
+</html>

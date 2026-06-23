@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #ffcc00;
+    ;
+    color: #000000;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    color: #ffffff;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    max-width: 1200px;
+    padding-bottom: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 15px;
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.UserFilter_section {
+    background-color: #ffd9001f;
+    padding: 20px 0;
+}
+
+.UserFilter {
+    margin: auto;
+    width: 100%;
+    max-width: 70%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #0057b316;
+}
+
+.UserFilter .filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.UserFilter .field {
+    flex: 1 1 23%;
+    min-width: 150px;
+    max-width: 200px;
+}
+
+.UserFilter input[type="text"],
+.UserFilter input[type="number"],
+.UserFilter input[type="date"],
+.UserFilter input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.UserFilter .button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.UserFilter p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    color: #000000;
+}
+
+.UserFilter input[type="submit"] {
+    padding: 10px 30px;
+    border: #000000;
+    border-radius: 10px;
+    background-color: #ffcc00;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.UserFilter input[type="submit"]:hover {
+    background-color: #ffcc0070;
+}
+
+.table-bordered {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.table-bordered th,
+.table-bordered td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.table-bordered th {
+    background-color: #007BFF;
+    color: #fff;
+    font-weight: bold;
+}
+
+.table-bordered tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-bordered a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.Footer {
+    margin-top: 20px;
+    background-color: #006ef498;
+    color: rgb(11, 11, 11);
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}

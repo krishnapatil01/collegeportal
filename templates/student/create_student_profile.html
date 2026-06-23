@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Student Profile - Trinity Alumni Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --navy:#002b5c; --blue:#004c99; --gold:#f5a400; --gold-light:#fff3d1;
+            --text-dark:#061b3a; --muted:#607089; --white:#ffffff; --border:#d9e2ef;
+            --shadow:0 18px 45px rgba(0,43,92,.15); --shadow-hover:0 26px 65px rgba(0,43,92,.28);
+        }
+        *{box-sizing:border-box} html{scroll-behavior:smooth}
+        body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;color:var(--text-dark);background:linear-gradient(rgba(255,255,255,.88),rgba(255,255,255,.88)),linear-gradient(90deg,rgba(0,43,92,.06) 1px,transparent 1px),linear-gradient(rgba(0,43,92,.06) 1px,transparent 1px);background-size:auto,40px 40px,40px 40px;overflow-x:hidden}
+        .main-navbar{background:rgba(255,255,255,.97);box-shadow:0 8px 25px rgba(0,43,92,.10);padding:13px 0;position:sticky;top:0;z-index:999}
+        .navbar-brand{display:flex;align-items:center;gap:12px;font-weight:900;color:var(--navy)!important;line-height:1.1;text-decoration:none}.navbar-brand img{width:54px;height:54px;object-fit:contain}.brand-title{font-size:18px;display:block}.brand-subtitle{font-size:12px;color:var(--blue);letter-spacing:1px;display:block}
+        .navbar-nav .nav-link{color:var(--text-dark)!important;font-weight:800;padding:10px 13px!important;border-radius:28px;transition:.3s ease;white-space:nowrap}.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active{background:var(--gold-light);color:var(--blue)!important;transform:translateY(-2px)}
+        .page-hero{width:100%;padding:76px 20px;background:linear-gradient(rgba(0,43,92,.88),rgba(0,76,153,.84)),url("{% static 'images/log.jpg' %}") center/cover no-repeat;color:#fff;text-align:center;position:relative;overflow:hidden}.page-hero:before{content:"";position:absolute;width:270px;height:270px;background:rgba(245,164,0,.20);border-radius:50%;top:-80px;right:-70px;animation:floatingShape 6s ease-in-out infinite}.page-hero:after{content:"";position:absolute;width:220px;height:220px;background:rgba(255,255,255,.10);border-radius:50%;bottom:-90px;left:-60px;animation:floatingShape 7s ease-in-out infinite reverse}.hero-content{position:relative;z-index:2;max-width:900px;margin:auto;animation:fadeUp .8s ease both}.hero-chip{display:inline-block;background:rgba(245,164,0,.18);border:1px solid rgba(245,164,0,.55);color:#ffe7a3;padding:9px 18px;border-radius:40px;font-weight:900;margin-bottom:18px}.page-hero h1{font-size:clamp(34px,5vw,58px);font-weight:950;margin-bottom:14px;letter-spacing:-1px}.page-hero p{font-size:18px;line-height:1.7;max-width:780px;margin:auto;color:rgba(255,255,255,.92)}
+        .page-wrapper{width:100%;padding:46px 5%}.section-title{text-align:center;margin-bottom:32px}.section-title span{display:inline-block;background:var(--gold-light);border:1px solid rgba(245,164,0,.35);color:#9a6500;padding:8px 16px;border-radius:30px;font-size:14px;font-weight:900;margin-bottom:12px}.section-title h2{font-size:clamp(28px,4vw,42px);font-weight:950;color:var(--text-dark);margin-bottom:10px}.section-title p{max-width:760px;margin:auto;color:var(--muted);font-size:17px;line-height:1.7;font-weight:600}
+        .content-card{max-width:1120px;margin:auto;background:rgba(255,255,255,.97);border:1px solid var(--border);border-radius:30px;box-shadow:var(--shadow);padding:36px;position:relative;overflow:hidden;animation:cardZoomIn .75s ease both;transition:.35s ease}.content-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:var(--shadow-hover)}.content-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:6px;background:linear-gradient(90deg,var(--gold),var(--blue),var(--navy))}.content-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-80px;bottom:-80px;background:rgba(245,164,0,.12);transition:.35s ease}.content-card:hover:after{transform:scale(1.35);background:rgba(0,76,153,.12)}
+        .profile-layout{display:grid;grid-template-columns:320px 1fr;gap:28px;position:relative;z-index:2}.profile-side{text-align:center;background:#f8fbff;border:1px solid var(--border);border-radius:26px;padding:28px}.profile-img-preview{width:180px;height:180px;object-fit:cover;border-radius:30px;border:5px solid #fff;box-shadow:0 16px 38px rgba(0,43,92,.18);margin-bottom:18px;animation:iconFloat 3s ease-in-out infinite}.empty-avatar{width:180px;height:180px;border-radius:30px;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;font-size:64px;box-shadow:0 16px 38px rgba(0,43,92,.18);animation:iconFloat 3s ease-in-out infinite}.profile-side h3{font-weight:950;color:var(--navy);margin-bottom:6px}.profile-side p{color:var(--muted);font-weight:700;margin-bottom:0}.details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.detail-box{background:#fff;border:1px solid var(--border);border-radius:22px;padding:20px;transition:.3s ease}.detail-box:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(0,43,92,.12);border-color:rgba(245,164,0,.55)}.detail-box small{display:block;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.detail-box strong{font-size:17px;color:var(--navy);word-break:break-word}.action-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;position:relative;z-index:2}.btn-main{display:inline-block;border:none;background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff!important;padding:13px 30px;border-radius:32px;font-weight:950;text-decoration:none;box-shadow:0 12px 26px rgba(0,43,92,.26);transition:.3s ease}.btn-main:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 18px 34px rgba(0,43,92,.34);color:#fff}.btn-outline-main{display:inline-block;background:#fff;color:var(--navy)!important;padding:12px 29px;border-radius:32px;font-weight:950;text-decoration:none;border:2px solid var(--blue);transition:.3s ease}.btn-outline-main:hover{background:var(--gold-light);color:var(--blue)!important;transform:translateY(-4px)}
+        .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 24px;position:relative;z-index:2}.form-grid p,.field-box{margin:0!important;display:block!important}.form-grid label,.field-box label{display:block!important;margin:0 0 8px!important;font-size:14px!important;font-weight:900!important;color:var(--text-dark)!important;text-align:left!important}.form-grid input,.form-grid select,.form-grid textarea,.field-box input,.field-box select,.field-box textarea{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:50px!important;margin:0!important;padding:11px 15px!important;border:1px solid #bfccdc!important;border-radius:15px!important;font-size:15px!important;color:var(--text-dark)!important;background:#fff!important;outline:none!important;box-shadow:none!important;transition:.25s ease}.form-grid textarea,.field-box textarea{min-height:110px!important;resize:vertical}.form-grid input:focus,.form-grid select:focus,.form-grid textarea:focus,.field-box input:focus,.field-box select:focus,.field-box textarea:focus{border-color:var(--blue)!important;box-shadow:0 0 0 4px rgba(0,76,153,.12)!important}.helptext{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:6px}.errorlist{margin:6px 0 0!important;padding-left:18px!important;color:#dc2626!important;font-size:13px!important;font-weight:700!important}.footer{background:linear-gradient(135deg,#002b5c,#004c99);color:#fff;padding:20px 0;margin-top:35px;font-weight:700}.footer p{margin:0;color:rgba(255,255,255,.90)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}@keyframes floatingShape{0%,100%{transform:translateY(0)}50%{transform:translateY(18px)}}@keyframes cardZoomIn{from{opacity:0;transform:scale(.9) translateY(35px)}to{opacity:1;transform:scale(1) translateY(0)}}@keyframes iconFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.04)}}.reveal-card{opacity:0;transform:translateY(35px) scale(.96);transition:.75s ease}.reveal-card.show{opacity:1;transform:translateY(0) scale(1)}
+        @media(max-width:992px){.profile-layout{grid-template-columns:1fr}.details-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.content-card{padding:28px}}@media(max-width:768px){.navbar .container-fluid{padding-left:18px!important;padding-right:18px!important}.page-hero{padding:52px 16px}.page-hero p{font-size:16px}.page-wrapper{padding:32px 14px}.navbar-brand img{width:44px;height:44px}.brand-title{font-size:16px}.action-row a,.btn-main,.btn-outline-main,button.btn-main{width:100%;text-align:center}.footer{text-align:center}}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid px-lg-5">
+        <a class="navbar-brand" href="{% url 'student_dashboard' %}">
+            <img src="{% static 'images/trinity-logo.png' %}" alt="Trinity Academy Logo" onerror="this.style.display='none'">
+            <span><span class="brand-title">Trinity Academy</span><span class="brand-subtitle">STUDENT PORTAL</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'view_student_profile' %}">View Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'search_alumni' %}">Search Alumni</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'student_job_port' %}">Job Board</a></li>
+                <li class="nav-item"><a class="nav-link" href="/view_resources">Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<section class="page-hero">
+    <div class="hero-content">
+        <span class="hero-chip">📝 Create Student Profile</span>
+        <h1>Complete Your Profile</h1>
+        <p>Add your academic and contact details so you can access alumni connections, job opportunities, resources, and career support.</p>
+    </div>
+</section>
+<section class="page-wrapper">
+    <div class="section-title reveal-card">
+        <span>Student Information</span>
+        <h2>Create Your Profile</h2>
+        <p>Fill in your correct details. This information helps the portal connect you with suitable opportunities.</p>
+    </div>
+    <div class="content-card reveal-card">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-grid">
+                {{ form.as_p }}
+            </div>
+            <div class="action-row">
+                <button type="submit" class="btn-main">Save Profile</button>
+                <a href="{% url 'view_student_profile' %}" class="btn-outline-main">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <div class="container d-flex justify-content-between flex-wrap gap-2">
+        <p>&copy; 2026 Trinity Academy Alumni Portal. All rights reserved.</p>
+        <p>Students • Alumni • Careers • Innovation</p>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".reveal-card").forEach(function(card, index){ card.style.transitionDelay=(index*.07)+"s"; });
+    const io = new IntersectionObserver(function(entries){ entries.forEach(function(entry){ if(entry.isIntersecting){ entry.target.classList.add("show"); } }); }, {threshold:.12});
+    document.querySelectorAll(".reveal-card").forEach(function(el){ io.observe(el); });
+    document.querySelectorAll(".form-grid input, .form-grid textarea, .field-box input, .field-box textarea").forEach(function(el){ el.classList.add("form-control"); });
+    document.querySelectorAll(".form-grid select, .field-box select").forEach(function(el){ el.classList.add("form-select"); });
+});
+</script>
+
+</body>
+</html>
